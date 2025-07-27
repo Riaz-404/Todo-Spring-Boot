@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,5 +51,17 @@ public class TodoController {
         }
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not Found");
+    }
+
+    @DeleteMapping("/{todoId}")
+    public ResponseEntity<?> deleteTodo(@PathVariable long todoId){
+        for(Todo todo: todoList){
+            if(todo.getId() == todoId){
+                todoList.remove(todo);
+                return ResponseEntity.status(HttpStatus.OK).body(todoList);
+            }
+        }
+        
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found");
     }
 }
